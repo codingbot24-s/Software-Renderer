@@ -40,7 +40,11 @@ int create_sdl_window() {
   SDL_SetWindowResizable(window,true);
   uint32_t* frame_buffer = create_framebuff();
   SDL_Texture* texture = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_XRGB8888,SDL_TEXTUREACCESS_STREAMING,WIDTH,HIEGHT);
-  
+  for (int i = 0; i< HIEGHT ; ++i) {
+    for (int j = 0; j< WIDTH; ++j) {
+      put_pixel(frame_buffer, j, i, 0xFF0000);
+    }
+  }  
   SDL_Event event;
    while (running == true) {
     while(SDL_PollEvent(&event)) {
