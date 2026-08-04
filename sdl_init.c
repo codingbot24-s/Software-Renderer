@@ -30,6 +30,7 @@ int create_sdl_window() {
     printf("window creation error %s\n", SDL_GetError());
     return -1;
   }
+  // we will be back soon // 
   SDL_Renderer* renderer = SDL_CreateRenderer(window,NULL);   
   if (!renderer) {
     printf("renderer creation error %s\n", SDL_GetError());
@@ -37,16 +38,9 @@ int create_sdl_window() {
   }
 
   SDL_SetWindowResizable(window,true);
-
   uint32_t* frame_buffer = create_framebuff();
   SDL_Texture* texture = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_XRGB8888,SDL_TEXTUREACCESS_STREAMING,WIDTH,HIEGHT);
-  // full framebuffer draw /// 
-  for (int y = 0; y < HIEGHT;y++ ) {
-      for (int x = 0; x < WIDTH;x++ ) {
-        frame_buffer[y * WIDTH + x] = 0xFFFFFF;
-    }
-  }
-  // TODO: change the frambuffer every second 
+  
   SDL_Event event;
    while (running == true) {
     while(SDL_PollEvent(&event)) {

@@ -10,6 +10,7 @@
 uint32_t* create_framebuff();
 
 
+void put_pixel(int x, int y, uint32_t color);
 void draw(uint32_t* framebuff);
 
 
