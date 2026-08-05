@@ -10,9 +10,9 @@
 #include "constant.h"
 #include "draw.h"
 #include <stdlib.h>
-#include <threads.h>
 
-// why two window  
+
+
 
 static bool running = true;
 
@@ -51,9 +51,8 @@ int create_sdl_window() {
   float x3 = 140;
   float y3 = 400;
 
-  
   SDL_Event event;
-   while (running == true) {
+  while (running == true) {
     while(SDL_PollEvent(&event)) {
       switch (event.type) {
         case SDL_EVENT_QUIT:
@@ -62,19 +61,19 @@ int create_sdl_window() {
         case SDL_EVENT_WINDOW_RESIZED:
         case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
           break;
-      } 
-
+      }
     }
 
-    
     clear_framebuffer(frame_buffer,0x000000);
-    draw_triangle(x1, y1, x2, y2, x3, y3,frame_buffer, 0xFF0000);
-    
+    fill_triangle(320,50, 500,400,140,400,frame_buffer,0x00FF00);
+
 
     SDL_UpdateTexture(texture,NULL,frame_buffer,WIDTH * sizeof(uint32_t));
     SDL_RenderClear(renderer);
     SDL_RenderTexture(renderer,texture,NULL,NULL);
     SDL_RenderPresent(renderer);
+
+    // early return was the nug
   }
   return 0;
 }

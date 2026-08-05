@@ -88,3 +88,72 @@ void draw_triangle(float x1, float y1, float x2, float y2, float x3, float y3,
     draw_line(framebuffer, x2, y2, x3, y3,color);
     draw_line(framebuffer, x3, y3, x1, y1,color);
 }
+
+void fill_triangle(float x1, float y1,float x2, float y2,
+                   float x3, float y3,uint32_t* framebuffer,uint32_t color) {
+
+  // y1 > it means a.y if its is more then y2 == b.y
+  // this means a is more down in the space
+  // TODO: test this sort 
+  // this is cofusing we should we implement vectors
+  if (y1 > y2) {
+    float temp = x1;
+    x1 = x2;
+    x2 = temp;
+
+    float temp1 = y1;
+    y1 = y2;
+    y2 = temp1; 
+  }
+  
+  if(y1 > y3) {
+    float temp = x1;
+    x1 = x3;
+    x3 = temp;
+
+    float temp1 = y1;
+    y1 = y3;
+    y3 = temp1;   
+  }
+  
+  if(y2 > y3) {
+    float temp = y2;
+    y2 = y3;
+    y3 = temp;
+
+    float temp1 = x2;
+    x2 = x3;
+    x3 = temp1;   
+  }
+  // full distance of c to a in y
+  float distance_c_to_a = y3 - y1;
+  // not the flat top 
+  if (y2 != y1) {
+    // distance of b ----> a in y 
+    // one segment hieght
+    float distance_b_to_a = y2 - y1;
+    for (int y = y1;y <=y2;y++) {
+      float f_x = x1 + ((x3 - x1) * (y - y1)) / distance_c_to_a;
+      float s_x = x1 + ((x2 - x1) * (y - y1)) / distance_b_to_a;
+      for (int x = fmin(f_x,s_x); x < fmax(f_x,s_x);x++) {
+        put_pixel(framebuffer,x,y,color);
+      }
+    }
+   
+  }
+  // not the flat bottom 
+  if (y2 != y3) {
+    // distance of c ----> b in y 
+    // one segment hieght
+    int distance_c_to_b = y3 - y2;
+    for (int y = y1;y <=y2;y++) {
+      float f_x = x1 + ((x3 - x1) * (y - y1)) / distance_c_to_a;
+      float s_x = x2 + ((x3 - x2) * (y - y2)) / distance_c_to_b;
+      for (int x = fmin(f_x,s_x); x < fmax(f_x,s_x);x++) {
+        put_pixel(framebuffer,x,y,color);
+      }
+    }
+   
+  }
+}
+
