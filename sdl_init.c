@@ -5,13 +5,11 @@
 #include "sdl_init.h"
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_render.h>
-#include <SDL3/SDL_stdinc.h>
 #include <stdint.h>
 #include <stdio.h>
 #include "constant.h"
 #include "draw.h"
 #include <stdlib.h>
-#include <sys/types.h>
 
 
 
@@ -40,11 +38,7 @@ int create_sdl_window() {
   SDL_SetWindowResizable(window,true);
   uint32_t* frame_buffer = create_framebuff();
   SDL_Texture* texture = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_XRGB8888,SDL_TEXTUREACCESS_STREAMING,WIDTH,HIEGHT);
-  for (int i = 0; i< HIEGHT ; ++i) {
-    for (int j = 0; j< WIDTH; ++j) {
-      put_pixel(frame_buffer, j, i, 0xFF0000);
-    }
-  }  
+
   SDL_Event event;
    while (running == true) {
     while(SDL_PollEvent(&event)) {
@@ -56,7 +50,12 @@ int create_sdl_window() {
         case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
           break;
       } 
+
     }
+
+
+     clear_framebuffer(frame_buffer,0x000000);
+     draw_line(frame_buffer, 10, 10, 200, 200,0xFF0000);
 
     SDL_UpdateTexture(texture,NULL,frame_buffer,WIDTH * sizeof(uint32_t));
     SDL_RenderClear(renderer);

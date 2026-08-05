@@ -14,4 +14,7 @@ add_executable(c main.c
         draw.c
         constant.h)
 
-target_link_libraries(c PRIVATE SDL3::SDL3)
+target_link_libraries(c PRIVATE
+        SDL3::SDL3
+        m
+)
