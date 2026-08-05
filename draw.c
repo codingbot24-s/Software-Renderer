@@ -126,13 +126,14 @@ void fill_triangle(float x1, float y1,float x2, float y2,
     x3 = temp1;   
   }
   // full distance of c to a in y
+  // NOTE: possible division by 0 if all of them on solve this
   float distance_c_to_a = y3 - y1;
   // not the flat top 
   if (y2 != y1) {
     // distance of b ----> a in y 
     // one segment hieght
     float distance_b_to_a = y2 - y1;
-    for (int y = y1;y <=y2;y++) {
+    for (int y = y1;y < y2;y++) {
       float f_x = x1 + ((x3 - x1) * (y - y1)) / distance_c_to_a;
       float s_x = x1 + ((x2 - x1) * (y - y1)) / distance_b_to_a;
       for (int x = fmin(f_x,s_x); x < fmax(f_x,s_x);x++) {
@@ -146,7 +147,7 @@ void fill_triangle(float x1, float y1,float x2, float y2,
     // distance of c ----> b in y 
     // one segment hieght
     int distance_c_to_b = y3 - y2;
-    for (int y = y1;y <=y2;y++) {
+    for (int y = y2;y <=y3;y++) {
       float f_x = x1 + ((x3 - x1) * (y - y1)) / distance_c_to_a;
       float s_x = x2 + ((x3 - x2) * (y - y2)) / distance_c_to_b;
       for (int x = fmin(f_x,s_x); x < fmax(f_x,s_x);x++) {
