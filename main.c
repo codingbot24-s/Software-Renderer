@@ -2,7 +2,7 @@
 // TODO: we need to organize our code
 
    /*
-      Implement a function that draws the outline of a
+      TODO: Implement a function that draws the outline of a
       triangle by drawing its three edges using your line-drawing function.
    */
 

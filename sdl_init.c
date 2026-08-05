@@ -10,8 +10,9 @@
 #include "constant.h"
 #include "draw.h"
 #include <stdlib.h>
+#include <threads.h>
 
-
+// why two window  
 
 static bool running = true;
 
@@ -39,6 +40,18 @@ int create_sdl_window() {
   uint32_t* frame_buffer = create_framebuff();
   SDL_Texture* texture = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_XRGB8888,SDL_TEXTUREACCESS_STREAMING,WIDTH,HIEGHT);
 
+  // first point
+  float x1 = 320;
+  float y1 = 50;
+
+  // second point
+  float x2 = 500;
+  float y2 = 400;
+  // third point
+  float x3 = 140;
+  float y3 = 400;
+
+  
   SDL_Event event;
    while (running == true) {
     while(SDL_PollEvent(&event)) {
@@ -53,13 +66,15 @@ int create_sdl_window() {
 
     }
 
-
-     clear_framebuffer(frame_buffer,0x000000);
-     draw_line(frame_buffer, 10, 10, 200, 200,0xFF0000);
+    
+    clear_framebuffer(frame_buffer,0x000000);
+    draw_triangle(x1, y1, x2, y2, x3, y3,frame_buffer, 0xFF0000);
+    
 
     SDL_UpdateTexture(texture,NULL,frame_buffer,WIDTH * sizeof(uint32_t));
     SDL_RenderClear(renderer);
     SDL_RenderTexture(renderer,texture,NULL,NULL);
     SDL_RenderPresent(renderer);
-  }  return 0;
+  }
+  return 0;
 }

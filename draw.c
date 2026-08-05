@@ -2,6 +2,7 @@
 // Created by saad on 8/4/26.
 //
 
+#include "draw.h"
 #include <math.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -31,6 +32,7 @@ void clear_framebuffer(uint32_t* framebuffer,uint32_t color) {
     }
   }
 }
+
 
 void draw_line(uint32_t* framebuffer,float x1,float y1,
               float x2, float y2, uint32_t color) {
@@ -79,4 +81,10 @@ void draw_line(uint32_t* framebuffer,float x1,float y1,
   }
 }
 
-
+void draw_triangle(float x1, float y1, float x2, float y2, float x3, float y3,
+                  uint32_t *framebuffer, uint32_t color) {
+  
+    draw_line(framebuffer, x1, y1, x2, y2,color);
+    draw_line(framebuffer, x2, y2, x3, y3,color);
+    draw_line(framebuffer, x3, y3, x1, y1,color);
+}
