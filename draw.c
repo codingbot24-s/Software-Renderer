@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include "constant.h"
 
-//  i think our task is complete 
 
 uint32_t* create_framebuff() {
   uint32_t* framebuff = (uint32_t*)malloc(WIDTH * HIEGHT * sizeof(uint32_t));
@@ -89,8 +88,8 @@ void draw_triangle(float x1, float y1, float x2, float y2, float x3, float y3,
     draw_line(framebuffer, x3, y3, x1, y1,color);
 }
 
-void fill_triangle(float x1, float y1,float x2, float y2,
-                   float x3, float y3,uint32_t* framebuffer,uint32_t color) {
+void fill_triangle(float x1, float y1,float z1,float x2, float y2,float z2,
+                   float x3, float y3,float z3,uint32_t* framebuffer,uint32_t color) {
 
   // y1 > it means a.y if its is more then y2 == b.y
   // this means a is more down in the space

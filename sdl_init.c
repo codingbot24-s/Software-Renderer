@@ -10,8 +10,11 @@
 #include "constant.h"
 #include "draw.h"
 #include <stdlib.h>
+#include <float.h>
+#include <time.h>
 
 
+void clean_zbuffer(float* z_buffer);
 
 
 static bool running = true;
@@ -40,16 +43,11 @@ int create_sdl_window() {
   uint32_t* frame_buffer = create_framebuff();
   SDL_Texture* texture = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_XRGB8888,SDL_TEXTUREACCESS_STREAMING,WIDTH,HIEGHT);
 
-  // first point
-  float x1 = 320;
-  float y1 = 50;
 
-  // second point
-  float x2 = 500;
-  float y2 = 400;
-  // third point
-  float x3 = 140;
-  float y3 = 400;
+
+  // we should check this is not null in the clean_zbuffer function 
+  float z_buffer[WIDTH * HIEGHT];
+  
 
   SDL_Event event;
   while (running == true) {
@@ -63,11 +61,14 @@ int create_sdl_window() {
           break;
       }
     }
+    
+    clean_zbuffer(z_buffer);
 
-    clear_framebuffer(frame_buffer,0x000000);
-    fill_triangle(320,50, 500,400,140,400,frame_buffer,0x00FF00);
-
-
+   clear_framebuffer(frame_buffer,0x000000);
+  
+    fill_triangle(10, 10, 0.3f,42, 10,0.4f, 10, 42, 0.5f,frame_buffer, 0xFF0000);
+   // fill_triangle(22, 16, 54, 16, 22, 48, frame_buffer, 0x0000FF);    
+    
     SDL_UpdateTexture(texture,NULL,frame_buffer,WIDTH * sizeof(uint32_t));
     SDL_RenderClear(renderer);
     SDL_RenderTexture(renderer,texture,NULL,NULL);
@@ -77,3 +78,19 @@ int create_sdl_window() {
   }
   return 0;
 }
+
+
+
+
+void clean_zbuffer(float* z_buffer) {
+  // the len of z buffer
+  int len = WIDTH * HIEGHT;  
+  if (z_buffer == NULL) {
+    return;  
+  }
+  for (int i = 0; i < len ; ++i) {
+    z_buffer[i] = FLT_MAX;
+  }
+    
+}
+ 

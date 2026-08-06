@@ -1,12 +1,19 @@
 
 // TODO: we need to organize our code
 
-   /*
-      Implement a function that fills a solid triangle so every pixel inside the triangle is colored,
-      regardless of the triangle's orientation or vertex order.
-   */
+  /*
+      Implement a depth (Z) buffer, clear it every frame, and use it so that overlapping triangles are 
+      rendered correctly based on depth instead of draw order.
+  */
 
-// i think our task is completed
+
+/*
+  we need to interpolate z also for completing this task
+  1. sort z also in our sort function
+  2. get the depth of left right edge by same interpolation
+  3. and each pixel between them by same interpolation
+  4. check the z in the z buffer and then draw pixel 
+*/
 
 #include "sdl_init.h"
 
