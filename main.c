@@ -15,6 +15,7 @@
   4. check the z in the z buffer and then draw pixel 
 */
 
+// i think the task is complete 
 #include "sdl_init.h"
 
 int main () {

@@ -47,8 +47,16 @@ int create_sdl_window() {
 
   // we should check this is not null in the clean_zbuffer function 
   float z_buffer[WIDTH * HIEGHT];
-  
 
+  // A= (10, 20, 0)
+  // B = (120, 100, 1)
+  // C = (60, 150, 0)
+
+
+  // D = (40, 120, 1)
+  // E = (150, 30, 0)
+  // F = (100, 160, 1)
+  
   SDL_Event event;
   while (running == true) {
     while(SDL_PollEvent(&event)) {
@@ -64,11 +72,19 @@ int create_sdl_window() {
     
     clean_zbuffer(z_buffer);
 
-   clear_framebuffer(frame_buffer,0x000000);
-  
-    fill_triangle(10, 10, 0.3f,42, 10,0.4f, 10, 42, 0.5f,frame_buffer, 0xFF0000);
-   // fill_triangle(22, 16, 54, 16, 22, 48, frame_buffer, 0x0000FF);    
+
     
+    clear_framebuffer(frame_buffer,0x000000);
+    fill_triangle(40,120,1,
+                150,30,0,
+                100,160,1,
+                frame_buffer,0x00FF00,z_buffer
+              );
+    fill_triangle(10,20,0,
+                  120,100, 1,
+                  60, 150, 0,
+                  frame_buffer,0xFF0000,z_buffer);
+
     SDL_UpdateTexture(texture,NULL,frame_buffer,WIDTH * sizeof(uint32_t));
     SDL_RenderClear(renderer);
     SDL_RenderTexture(renderer,texture,NULL,NULL);

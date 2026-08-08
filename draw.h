@@ -23,6 +23,8 @@ void draw_triangle(float x1,float y1,float x2, float y2,
 
 
 
-void fill_triangle(float x1, float y1,float z1,float x2, float y2,float z2,
-                   float x3, float y3,float z3 ,uint32_t* framebuffer,uint32_t color); 
+void fill_triangle(float x1, float y1,float z1,
+                   float x2, float y2,float z2,
+                   float x3, float y3,float z3 ,
+                   uint32_t* framebuffer,uint32_t color, float* zbuffer); 
 #endif //C_DRAW_H

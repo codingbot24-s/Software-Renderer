@@ -88,41 +88,41 @@ void draw_triangle(float x1, float y1, float x2, float y2, float x3, float y3,
     draw_line(framebuffer, x3, y3, x1, y1,color);
 }
 
-void fill_triangle(float x1, float y1,float z1,float x2, float y2,float z2,
-                   float x3, float y3,float z3,uint32_t* framebuffer,uint32_t color) {
 
+
+void swap(float*a , float* b) {
+  float temp = *a;
+  *a = *b;
+  *b = temp;
+}
+
+void fill_triangle(float x1, float y1,float z1,
+                   float x2, float y2,float z2,
+                   float x3, float y3,float z3,
+                   uint32_t* framebuffer,uint32_t color,
+                   float* zbuffer) {
   // y1 > it means a.y if its is more then y2 == b.y
   // this means a is more down in the space
-  // TODO: test this sort 
   // this is cofusing we should we implement vectors
-  if (y1 > y2) {
-    float temp = x1;
-    x1 = x2;
-    x2 = temp;
 
-    float temp1 = y1;
-    y1 = y2;
-    y2 = temp1; 
+  // TODO: test this sort with swap
+  if (y1 > y2) {
+    swap(&x1,&x2);
+    swap(&y1, &y2);
+    swap(&z1,&z2);
   }
   
   if(y1 > y3) {
-    float temp = x1;
-    x1 = x3;
-    x3 = temp;
-
-    float temp1 = y1;
-    y1 = y3;
-    y3 = temp1;   
+    swap(&x1,&x3);
+    swap(&y1, &y3);
+    swap(&z1,&z3);
   }
   
   if(y2 > y3) {
-    float temp = y2;
-    y2 = y3;
-    y3 = temp;
-
-    float temp1 = x2;
-    x2 = x3;
-    x3 = temp1;   
+    swap(&y2,&y3);
+    swap(&x2,&x3);
+    swap(&z2,&z3);
+    
   }
   // full distance of c to a in y
   // NOTE: possible division by 0 if all of them on solve this
@@ -135,8 +135,16 @@ void fill_triangle(float x1, float y1,float z1,float x2, float y2,float z2,
     for (int y = y1;y < y2;y++) {
       float f_x = x1 + ((x3 - x1) * (y - y1)) / distance_c_to_a;
       float s_x = x1 + ((x2 - x1) * (y - y1)) / distance_b_to_a;
+      float left_z = z1 + ((z2 - z1) * (y - y1)) / distance_b_to_a;
+      float right_z = z1 + ((z3 - z1) * (y - y1)) / distance_c_to_a;
       for (int x = fmin(f_x,s_x); x < fmax(f_x,s_x);x++) {
-        put_pixel(framebuffer,x,y,color);
+        float z = right_z + (left_z - right_z) * (x - f_x) / (s_x - f_x);
+        int zindex = y * WIDTH + x; 
+        if(z < zbuffer[zindex]) {
+          zbuffer[zindex] = z;
+          put_pixel(framebuffer,x,y,color);
+          
+        }
       }
     }
    
@@ -148,12 +156,17 @@ void fill_triangle(float x1, float y1,float z1,float x2, float y2,float z2,
     int distance_c_to_b = y3 - y2;
     for (int y = y2;y <=y3;y++) {
       float f_x = x1 + ((x3 - x1) * (y - y1)) / distance_c_to_a;
+      float left_z = z2 + ((z3 - z2) * (y - y2)) / distance_c_to_b;
+      float right_z = z1 + ((z3 - z1) * (y - y1)) / distance_c_to_a;     
       float s_x = x2 + ((x3 - x2) * (y - y2)) / distance_c_to_b;
       for (int x = fmin(f_x,s_x); x < fmax(f_x,s_x);x++) {
-        put_pixel(framebuffer,x,y,color);
+        float z = right_z + (left_z - right_z) * (x - f_x) / (s_x - f_x);
+        int zindex = y * WIDTH + x; 
+        if(z < zbuffer[zindex]) {
+          zbuffer[zindex] = z;
+          put_pixel(framebuffer,x,y,color);      
+        }
       }
     }
-   
   }
 }
-
