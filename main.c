@@ -9,10 +9,11 @@
 #include "vec.h"
 #include "mat.h"
 #include <stdio.h>
+// TODO: test the rotation matrix
 
 int main () {
   vec4 v4 = v4_init(6, 5, 4,1);
-  matrix t_matrix = make_translation_matrix(1, 2, 3);
+  matrix t_matrix = make_rotation_matrix(1, 2, 3);
   vec4 res = matrix_mul_vec4(t_matrix, v4);
   printf("res x is %f\n",res.x);
   printf("res y is %f\n",res.y);

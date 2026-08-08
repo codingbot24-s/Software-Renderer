@@ -2,6 +2,9 @@
 
 #include "mat.h"
 #include "vec.h"
+#include <math.h>
+
+
 
 matrix make_translation_matrix(float tx,float ty,float tz) {
   return (matrix) {
@@ -14,6 +17,30 @@ matrix make_translation_matrix(float tx,float ty,float tz) {
   };
 }
 
+matrix make_rotation_matrix(float yaw,float pitch,float roll) {
+  
+  float alpha = yaw * DAG_TO_RADIANS;
+  float beta  = pitch * DAG_TO_RADIANS;
+  float gamma = roll * DAG_TO_RADIANS;
+  
+  float ca = cosf(alpha);
+  float sa = sinf(alpha);
+  
+  float cb = cosf(beta);
+  float sb = sinf(beta);
+  
+  float cg = cosf(gamma);
+  float sg = sinf(gamma);
+
+   return (matrix) {
+    .mat = {
+        {ca*cb, ca*sb*sg-sa*cg,  ca*sb*cg+sa*sg,  0.0},
+        {sa*cb, sa*sb*sg+ca*cg,  sa*sb*cg-ca*sg,  0.0},
+        {  -sb,          cb*sg,  cb*cg,           0.0},
+        {  0.0,              0.0,  0.0,           1.0},
+    }
+  };
+}
 
 vec4 matrix_mul_vec4(matrix matrix, vec4 vec) {
   vec4 res;
