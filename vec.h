@@ -1,6 +1,7 @@
 #pragma once
 
-typedef struct vec3{
+typedef struct vec3
+{
   float x;
   float y;
   float z;
@@ -8,8 +9,8 @@ typedef struct vec3{
 
 vec3 v3_init(float x, float y, float z);
 
-
-typedef struct vec4{
+typedef struct vec4
+{
   float x;
   float y;
   float z;
@@ -17,4 +18,3 @@ typedef struct vec4{
 } vec4;
 
 vec4 v4_init(float x, float y, float z, float w);
-

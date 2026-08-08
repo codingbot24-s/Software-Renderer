@@ -12,6 +12,10 @@ add_executable(c main.c
         sdl_init.c
         draw.h
         draw.c
+        vec.h
+        vec.c
+        mat.c
+        mat.h
         constant.h)
 
 target_link_libraries(c PRIVATE

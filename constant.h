@@ -8,4 +8,4 @@
 #define WIDTH 800
 #define HIEGHT 600
 
-#endif //C_CONSTANT_H
+#endif // C_CONSTANT_H
